@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Easy Financial Statements</title>
+
+</head>
+<!-- NavBar -->
+<body class="text-center">
+
+<nav class="navbar navbar-dark bg-dark" style="color: black">
+      <a class="navbar-brand" href="{% url 'analyzer-home' %}">Easy Financial Statements</a>
+    <form class="form-inline" >
+    <input class="form-control mr-sm-2" type="search" placeholder="Enter Company" aria-label="Search">
+<button type="button" class="btn btn-secondary">Go</button>
+
+  </form>
+</nav>
+
+
+<br><br><br><br><br>
+<h3 class="text-center display-4">Analyze. Compare. Invest.</h3>
+<br>
+<h5 class="text-center">Easy Financial Statements presents full financial analysis<br>
+reports on any public company in the world and allows investors <br> to compare companies among industries.  </h5>
+<br><br>
+<div class="container">
+<form method="post" autocomplete="off">
+    <!--<div class="row">-->
+  <!--<div class="form-group col-xl-4 offset-lg-4">-->
+    <!--&lt;!&ndash;<label for="exampleInputEmail1"></label>&ndash;&gt;-->
+    <!--<input type="email" class="form-control" id="company1" aria-describedby="emailHelp" placeholder="Enter Company #1">-->
+      <!--<br>-->
+      <!--<input type="email" class="form-control" id="company2" aria-describedby="emailHelp" placeholder="Enter Company #2">-->
+        <!--<br>-->
+      <!--<button type="submit" class="btn btn-secondary btn-sm">Compare!</button>-->
+
+  <!--</div>-->
+    <!--</div>-->
+
+    {% csrf_token %}
+
+    {{ form }}
+
+    <input type="submit" value="Submit">
+</form>
+</div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Easy Financial Statements</title>
+
+    <style>
+        td.winner {
+            color:green;
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        td.loser {
+            font-weight: normal;
+        }
+
+        th.description{
+            font-weight: normal;
+        }
+
+        td.owinner{
+            color:green;
+            font-weight: bold;
+            font-size: larger;
+            text-decoration: underline;
+        }
+
+
+        span.info{
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .card-header{
+            font-weight: bold;
+
+        }
+
+        span.stockloser {
+            color: red;
+        }
+
+        span.stockwinner {
+            color: green;
+        }
+
+        span.about{
+            font-weight: normal;
+        }
+
+        td {
+            word-wrap: break-word;
+        }
+
+        #break{
+            word-wrap: break-word;
+        }
+
+        td.describe {
+            text-decoration: underline;
+        }
+
+    </style>
+
+    <script>
+
+        window.smoothScroll = function(target) {
+    var scrollContainer = target;
+    do { //find scroll container
+        scrollContainer = scrollContainer.parentNode;
+        if (!scrollContainer) return;
+        scrollContainer.scrollTop += 1;
+    } while (scrollContainer.scrollTop == 0);
+
+    var targetY = 0;
+    do { //find the top of target relatively to the container
+        if (target == scrollContainer) break;
+        targetY += target.offsetTop;
+    } while (target = target.offsetParent);
+
+    scroll = function(c, a, b, i) {
+        i++; if (i > 30) return;
+        c.scrollTop = a + (b - a) / 30 * i;
+        setTimeout(function(){ scroll(c, a, b, i); }, 20);
+    }
+    // start scrolling
+    scroll(scrollContainer, scrollContainer.scrollTop, targetY, 0);
+}
+    </script>
+
+</head>
+<!-- NavBar -->
+<body class="text-center">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<nav class="navbar navbar-dark bg-dark" style="color: black">
+      <a class="navbar-brand" href="{% url 'analyzer-home' %}">Easy Financial Statements</a>
+    <form class="form-inline" >
+    <input class="form-control mr-sm-2" type="search" placeholder="Enter Company" aria-label="Search">
+<button type="button" class="btn btn-secondary">Go</button>
+
+  </form>
+</nav>
+<br>
+
+<div class="row">
+    <div class="col-sm-2"></div>
+  <div class="col-sm-4">
+    <div class="card h-100" style="height: 200px">
+        <div class="card-header">{{Company1.company_name}}</div>
+      <div class="card-body">
+          <img src={{Company1.picture}} height="42" width="42">
+          <br><br>
+        <p class="card-text">{{Company1.description}}</p>
+
+          <br>
+
+          {% if Company1.changes %}
+          <p class="card-text">Price: <span class="info">${{Company1.price}} <span class="stockwinner">{{Company1.profile.ChangesPerc}}</span></span></p>
+
+          {% else %}
+
+          <p class="card-text">Price: <span class="info">${{Company1.price}} <span class="stockloser">{{Company1.profile.ChangesPerc}}</span></span></p>
+
+          {% endif %}
+
+          <p class="card-text">Beta: <span class="info">{{Company1.profile.Beta}}</span></p>
+          <p class="card-text">VolAvg: <span class="info">{{Company1.profile.VolAvg}}</span></p>
+          <p class="card-text">Market Cap: <span class="info">{{Company1.profile.MktCap}}</span></p>
+          <p class="card-text">Exchange: <span class="info">{{Company1.profile.exchange}}</span></p>
+
+      </div>
+    </div>
+  </div>
+
+
+     <div class="col-sm-4">
+    <div class="card h-100" style="height: 100px">
+        <div class="card-header">{{Company2.company_name}}</div>
+      <div class="card-body">
+          <img src={{Company2.picture}} height="50" width="42">
+          <br><br>
+        <p class="card-text">{{Company2.description}}</p>
+          <br>
+
+
+          {% if Company2.changes %}
+          <p class="card-text">Price: <span class="info">${{Company2.price}} <span class="stockwinner">{{Company2.profile.ChangesPerc}}</span></span></p>
+
+          {% else %}
+
+          <p class="card-text">Price: <span class="info">${{Company2.price}} <span class="stockloser">{{Company2.profile.ChangesPerc}}</span></span></p>
+
+          {% endif %}
+
+          <p class="card-text">Beta: <span class="info">{{Company2.profile.Beta}}</span></p>
+          <p class="card-text">VolAvg: <span class="info">{{Company2.profile.VolAvg}}</span></p>
+          <p class="card-text">Market Cap: <span class="info">{{Company2.profile.MktCap}}</span></p>
+          <p class="card-text">Exchange: <span class="info">{{Company2.profile.exchange}}</span></p>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="col-sm-2"></div>
+</div>
+<br>
+<button type="button" onclick="smoothScroll(document.getElementById('financial-comparison'))" class="btn btn-outline-dark btn-lg">Compare Financials</button>
+
+<br><br><br><br>
+<div id="financial-comparison">
+<h3 class="text-center display-4">Profitability Comparison</h3>
+<table class="table table-hover table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Ratio</th>
+        <th scope="col">Description</th>
+        <th scope="col">{{Company1.company_name}}</th>
+      <th scope="col">{{Company2.company_name}}</th>
+        <!--<th scope="col">Winner</th>-->
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <th scope="row">Gross Profit Margin </th>
+  <td class="describe">Gross profit, the first level of profitability,
+            tells analysts how good a company is at creating a
+            product or providing a service compared to its
+            competitors.</td>
+        {% if winner.grossProfitMargin == Company1.company_name %}
+      <td class="winner">{{Company1.profitability_ratios.grossProfitMargin}}</td>
+      <td class="loser">{{Company2.profitability_ratios.grossProfitMargin}}</td>
+
+
+        {% else %}
+        <td class="loser">{{Company1.profitability_ratios.grossProfitMargin}}</td>
+      <td class="winner">{{Company2.profitability_ratios.grossProfitMargin}}</td>
+
+        {% endif %}
+    </tr>
+    <tr>
+      <th scope="row">Operating Profit Margin<br></th>
+        <td class="describe">A company’s operating margin, also known as
+            return on sales, is a good indicator of
+            how well it is being managed and how risky it is.</td>
+        {% if winner.operatingProfit == Company1.company_name %}
+
+      <td class="winner">{{Company1.profitability_ratios.operatingProfitMargin}}</td>
+      <td class="loser">{{Company2.profitability_ratios.operatingProfitMargin}}</td>
+
+        {% else %}
+
+        <td class="loser">{{Company1.profitability_ratios.operatingProfitMargin}}</td>
+      <td class="winner">{{Company2.profitability_ratios.operatingProfitMargin}}</td>
+
+        {% endif %}
+
+    </tr>
+    <tr>
+        <th scope="row">Pretax Profit Margin</th>
+        <td class="describe">
+            It is a ratio that tells us the percentage of
+            sales that has turned into profits or, in other words,
+            how many cents of profit the business has generated for
+            each dollar of sale before deducting taxes.
+        </td>
+        {% if winner.pretaxProfitMargin == Company1.company_name %}
+      <td class="winner">{{Company1.profitability_ratios.pretaxProfitMargin}}</td>
+      <td class="loser">{{Company2.profitability_ratios.pretaxProfitMargin}}</td>
+
+        {% else %}
+        <td class="loser">{{Company1.profitability_ratios.pretaxProfitMargin}}</td>
+      <td class="winner">{{Company2.profitability_ratios.pretaxProfitMargin}}</td>
+
+        {% endif %}
+    </tr>
+
+  <tr>
+        <th scope="row">Net Profit Margin</th>
+      <td class="describe">
+          Investors can assess if a company's management is
+          generating enough profit from its sales and whether
+          operating costs and overhead costs are being contained.
+      </td>
+      {% if winner.netProfitMargin == Company1.company_name %}
+
+      <td class="winner">{{Company1.profitability_ratios.netProfitMargin}}</td>
+      <td class="loser">{{Company2.profitability_ratios.netProfitMargin}}</td>
+
+      {%  else %}
+       <td class="loser">{{Company1.profitability_ratios.netProfitMargin}}</td>
+      <td class="winner">{{Company2.profitability_ratios.netProfitMargin}}</td>
+
+      {% endif %}
+    </tr>
+
+   <tr>
+        <th scope="row">Effective Tax Rate</th>
+        <td class="describe">
+            Effective tax rate represents the percentage of their
+            taxable income that individuals have to pay in taxes.
+        </td>
+       {% if winner.effectiveTaxRate == Company1.company_name %}
+
+      <td class="winner">{{Company1.profitability_ratios.effectiveTaxRate}}</td>
+      <td class="loser">{{Company2.profitability_ratios.effectiveTaxRate}}</td>
+
+       {%  else %}
+
+        <td class="loser">{{Company1.profitability_ratios.effectiveTaxRate}}</td>
+      <td class="winner">{{Company2.profitability_ratios.effectiveTaxRate}}</td>
+
+       {% endif %}
+
+    </tr>
+
+   <tr>
+        <th scope="row">Return on Assets</th>
+       <td class="describe">
+           The ROA figure gives investors an idea of how effective the
+           company is in converting the money it invests into net income
+       </td>
+       {% if winner.returnOnAssets == Company1.company_name %}
+
+      <td class="winner">{{Company1.profitability_ratios.returnOnAssets}}</td>
+      <td class="loser">{{Company2.profitability_ratios.returnOnAssets}}</td>
+
+       {% else %}
+
+         <td class="loser">{{Company1.profitability_ratios.returnOnAssets}}</td>
+      <td class="winner">{{Company2.profitability_ratios.returnOnAssets}}</td>
+
+       {% endif %}
+    </tr>
+
+   <tr>
+        <th scope="row">Return on Equity</th>
+       <td class="describe">
+           Return on equity measures how effectively management is using a
+           company’s assets to create profits.
+       </td>
+       {% if winner.returnOnEquity == Company1.company_name %}
+
+      <td class="winner">{{Company1.profitability_ratios.returnOnEquity}}</td>
+      <td class="loser">{{Company2.profitability_ratios.returnOnEquity}}</td>
+
+       {% else %}
+
+       <td class="loser">{{Company1.profitability_ratios.returnOnEquity}}</td>
+      <td class="winner">{{Company2.profitability_ratios.returnOnEquity}}</td>
+
+       {% endif %}
+    </tr>
+
+   <tr>
+        <th scope="row">Return on Capital Employed</th>
+       <td class="describe">
+           ROCE is a useful metric for comparing profitability
+           across companies
+           based on the amount of capital they use
+       </td>
+       {% if winner.returnOnCapitalEmployed == Company1.company_name %}
+
+      <td class="winner">{{Company1.profitability_ratios.returnOnCapitalEmployed}}</td>
+      <td class="loser">{{Company2.profitability_ratios.returnOnCapitalEmployed}}</td>
+
+       {% else %}
+      <td class="loser">{{Company1.profitability_ratios.returnOnCapitalEmployed}}</td>
+      <td class="winner">{{Company2.profitability_ratios.returnOnCapitalEmployed}}</td>
+
+       {% endif %}
+
+    </tr>
+
+  <tr class="table-success">
+      <th scope="row"><u>Overall Winner</u></th>
+      <td class="owinner">{{winner.winner_profit}}</td>
+
+      <td>-</td>
+      <td>-</td>
+
+
+
+    </tr>
+
+
+  </tbody>
+</table>
+<br>
+
+<h3 class="text-center display-4">Liquidity Comparison</h3>
+<table class="table table-hover table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Ratio</th>
+        <th scope="col">Description</th>
+      <th scope="col">{{Company1.company_name}}</th>
+      <th scope="col">{{Company2.company_name}}</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <th scope="row">Current Ratio
+
+        </th>
+        <td class="describe">
+            The current ratio is sometimes referred to as the
+            “working capital” ratio and helps investors understand
+            more about a company’s ability to cover its short-term
+            debt with its current assets
+            </td>
+
+
+        {% if winner.currentRatio == Company1.company_name%}
+      <td class="winner">{{Company1.liquidity_ratios.currentRatio}}</td>
+      <td class="loser">{{Company2.liquidity_ratios.currentRatio}}</td>
+        {% else %}
+
+         <td class="loser">{{Company1.liquidity_ratios.currentRatio}}</td>
+      <td class="winner">{{Company2.liquidity_ratios.currentRatio}}</td>
+
+        {% endif %}
+    </tr>
+    <tr>
+      <th scope="row">Quick Ratio</th>
+
+        <td class="describe">
+            The quick ratio indicates a company's capacity to pay its
+            current liabilities without needing to sell its inventory or get additional financing.
+        </td>
+        {% if winner.quickRatio == Company1.company_name%}
+      <td class="winner">{{Company1.liquidity_ratios.quickRatio}}</td>
+      <td class="loser">{{Company2.liquidity_ratios.quickRatio}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.liquidity_ratios.quickRatio}}</td>
+      <td class="winner">{{Company2.liquidity_ratios.quickRatio}}</td>
+
+        {% endif %}
+
+    </tr>
+    <tr>
+        <th scope="row">Cash Ratio</th>
+        <td class="describe">
+            The cash ratio is a liquidity measure that shows a
+            company's ability to cover its short-term obligations
+            with only cash and cash equivalents.
+        </td>
+        {% if winner.cashRatio == Company1.company_name%}
+      <td class="winner">{{Company1.liquidity_ratios.cashRatio}}</td>
+      <td class="loser">{{Company2.liquidity_ratios.cashRatio}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.liquidity_ratios.cashRatio}}</td>
+      <td class="winner">{{Company2.liquidity_ratios.cashRatio}}</td>
+
+        {% endif %}
+
+    </tr>
+
+  <tr>
+        <th scope="row">Days of Sales Outstanding</th>
+        <td class="describe">
+            Days sales outstanding (DSO) is a measure of the average number of
+            days that it takes a company to collect payment after a sale
+            has been made.
+        </td>
+
+        {% if winner.daysofSalesOutstanding == Company1.company_name%}
+      <td class="winner">{{Company1.liquidity_ratios.daysofSalesOutstanding}}</td>
+      <td class="loser">{{Company2.liquidity_ratios.daysofSalesOutstanding}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.liquidity_ratios.daysofSalesOutstanding}}</td>
+      <td class="winner">{{Company2.liquidity_ratios.daysofSalesOutstanding}}</td>
+
+        {% endif %}
+
+    </tr>
+
+   <tr>
+        <th scope="row">Days Inventory Outstanding</th>
+        <td class="describe">
+            Days sales of inventory (DSI) is the average number of
+            days it takes for a firm to sell off inventory.
+        </td>
+
+        {% if winner.daysofInventoryOutstanding == Company1.company_name%}
+      <td class="winner">{{Company1.liquidity_ratios.daysofInventoryOutstanding}}</td>
+      <td class="loser">{{Company2.liquidity_ratios.daysofInventoryOutstanding}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.liquidity_ratios.daysofInventoryOutstanding}}</td>
+      <td class="winner">{{Company2.liquidity_ratios.daysofInventoryOutstanding}}</td>
+
+        {% endif %}
+
+    </tr>
+
+   <tr>
+        <th scope="row">Operating Cycle</th>
+
+        <td class="describe">
+            The operating cycle is the average period of time
+            required for a business to make an initial outlay of
+            cash to produce goods, sell the goods,
+            and receive cash from customers in exchange for the goods.
+        </td>
+        {% if winner.operatingCycle == Company1.company_name%}
+      <td class="winner">{{Company1.liquidity_ratios.operatingCycle}}</td>
+      <td class="loser">{{Company2.liquidity_ratios.operatingCycle}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.liquidity_ratios.operatingCycle}}</td>
+      <td class="winner">{{Company2.liquidity_ratios.operatingCycle}}</td>
+
+        {% endif %}
+
+    </tr>
+
+   <tr>
+        <th scope="row">Days Payables Outstanding</th>
+
+        <td class="describe">
+            Days payable outstanding (DPO) is a financial ratio that
+            indicates the average time (in days) that a company takes
+            to pay its bills and invoices.
+        </td>
+        {% if winner.daysofPayablesOutstanding == Company1.company_name%}
+      <td class="winner">{{Company1.liquidity_ratios.daysofPayablesOutstanding}}</td>
+      <td class="loser">{{Company2.liquidity_ratios.daysofPayablesOutstanding}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.liquidity_ratios.daysofPayablesOutstanding}}</td>
+      <td class="winner">{{Company2.liquidity_ratios.daysofPayablesOutstanding}}</td>
+
+        {% endif %}
+
+    </tr>
+
+   <tr>
+        <th scope="row">Cash Conversion Cycle</th>
+        <td class="describe">
+            The cash conversion cycle (CCC) is a metric that expresses the length of time (in days) that it takes for a company to convert its investments in inventory and other resources into cash flows from sales.
+
+        </td>
+
+        {% if winner.cashConversionCycle == Company1.company_name%}
+      <td class="winner">{{Company1.liquidity_ratios.cashConversionCycle}}</td>
+      <td class="loser">{{Company2.liquidity_ratios.cashConversionCycle}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.liquidity_ratios.cashConversionCycle}}</td>
+      <td class="winner">{{Company2.liquidity_ratios.cashConversionCycle}}</td>
+
+        {% endif %}
+
+    </tr>
+
+   <tr class="table-success">
+        <th scope="row">Overall Winner</th>
+       <td class="owinner">{{winner.winner_liquidity}}</td>
+
+        <td>-</td>
+        <td>-</td>
+    </tr>
+
+  </tbody>
+</table>
+<br>
+<h3 class="text-center display-4">Debt Comparison</h3>
+<table class="table table-hover table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Ratio</th>
+        <th scope="col">Description</th>
+      <th scope="col">{{Company1.company_name}}</th>
+      <th scope="col">{{Company2.company_name}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <th scope="row">Debt Ratio</th>
+        <td class="describe">
+            The debt ratio is a financial ratio that measures
+            the extent of a company’s leverage.The higher the debt ratio,
+            the more leveraged a company is,
+            implying greater financial risk.
+        </td>
+        {% if winner.debtRatio == Company1.company_name %}
+      <td class="winner">{{Company1.debt_ratios.debtRatio}}</td>
+      <td class="loser">{{Company2.debt_ratios.debtRatio}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.debt_ratios.debtRatio}}</td>
+      <td class="winner">{{Company2.debt_ratios.debtRatio}}</td>
+
+        {% endif %}
+    </tr>
+    <tr>
+      <th scope="row">Debt to Equity Ratio</th>
+
+        <td class="describe">
+             It is a measure of the degree to which a company is
+            financing its operations through debt versus wholly owned funds.
+        </td>
+        {% if winner.debtEquityRatio == Company1.company_name %}
+      <td class="winner">{{Company1.debt_ratios.debtEquityRatio}}</td>
+      <td class="loser">{{Company2.debt_ratios.debtEquityRatio}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.debt_ratios.debtEquityRatio}}</td>
+      <td class="winner">{{Company2.debt_ratios.debtEquityRatio}}</td>
+
+        {% endif %}
+
+    </tr>
+    <tr>
+        <th scope="row">Long Term Debt to Capitalization</th>
+        <td class="describe">
+            The long-term debt to capitalization ratio, a variation of the
+            traditional debt-to-equity ratio, shows the financial
+            leverage of a firm.
+        </td>
+
+        {% if winner.longtermDebtToCapitalization == Company1.company_name %}
+      <td class="winner">{{Company1.debt_ratios.longtermDebtToCapitalization}}</td>
+      <td class="loser">{{Company2.debt_ratios.longtermDebtToCapitalization}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.debt_ratios.longtermDebtToCapitalization}}</td>
+      <td class="winner">{{Company2.debt_ratios.longtermDebtToCapitalization}}</td>
+
+        {% endif %}
+
+    </tr>
+
+  <tr>
+        <th scope="row">Total Debt to Capitalization</th>
+      <td class="describe">
+
+          The total debt-to-capitalization ratio is a tool that
+          measures the total amount of outstanding company debt
+          as a percentage of the firm’s total capitalization.
+
+      </td>
+       {% if winner.totalDebtToCapitalization == Company1.company_name %}
+      <td class="winner">{{Company1.debt_ratios.totalDebtToCapitalization}}</td>
+      <td class="loser">{{Company2.debt_ratios.totalDebtToCapitalization}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.debt_ratios.totalDebtToCapitalization}}</td>
+      <td class="winner">{{Company2.debt_ratios.totalDebtToCapitalization}}</td>
+
+        {% endif %}
+
+
+    </tr>
+
+   <tr>
+        <th scope="row">Interest Coverage Ratio</th>
+       <td class="describe">
+           The interest coverage ratio is used to determine
+           how easily a company can pay their interest expenses
+           on outstanding debt.
+       </td>
+       {% if winner.interestCoverageRatio == Company1.company_name %}
+      <td class="winner">{{Company1.debt_ratios.interestCoverageRatio}}</td>
+      <td class="loser">{{Company2.debt_ratios.interestCoverageRatio}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.debt_ratios.interestCoverageRatio}}</td>
+      <td class="winner">{{Company2.debt_ratios.interestCoverageRatio}}</td>
+
+        {% endif %}
+
+    </tr>
+
+   <tr>
+        <th scope="row">Cash Flow To Debt Ratio</th>
+       <td class="describe">
+           The cash flow-to-debt ratio is the ratio
+           of a company’s cash flow from operations to its total debt.
+       </td>
+         {% if winner.cashFlowToDebtRatio == Company1.company_name %}
+      <td class="winner">{{Company1.debt_ratios.cashFlowToDebtRatio}}</td>
+      <td class="loser">{{Company2.debt_ratios.cashFlowToDebtRatio}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.debt_ratios.cashFlowToDebtRatio}}</td>
+      <td class="winner">{{Company2.debt_ratios.cashFlowToDebtRatio}}</td>
+
+        {% endif %}
+
+    </tr>
+
+   <tr>
+        <th scope="row">Company Equity Multiplier</th>
+       <td class="describe">
+            The equity multiplier is a financial leverage ratio
+           that measures the portion of company’s assets
+           that are financed by stockholder's equity.
+       </td>
+        {% if winner.companyEquityMultiplier == Company1.company_name %}
+      <td class="winner">{{Company1.debt_ratios.companyEquityMultiplier}}</td>
+      <td class="loser">{{Company2.debt_ratios.companyEquityMultiplier}}</td>
+
+        {% else %}
+
+         <td class="loser">{{Company1.debt_ratios.companyEquityMultiplier}}</td>
+      <td class="winner">{{Company2.debt_ratios.companyEquityMultiplier}}</td>
+
+        {% endif %}
+    </tr>
+  <tr class="table-success">
+      <th scope="row">Overall Winner</th>
+      <td class="owinner">{{winner.winner_debt}}</td>
+
+      <td>-</td>
+      <td>-</td>
+  </tr>
+
+  </tbody>
+</table>
+
+<br>
+<h3 class="text-center display-4">Cash Flow Indicator.</h3>
+<table class="table table-hover table">
+  <thead>
+    <tr>
+      <th scope="col">Ratio</th>
+        <th scope="col">Description</th>
+      <th scope="col">{{Company1.company_name}}</th>
+      <th scope="col">{{Company2.company_name}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <th scope="row">Operating Cash Flow Sales Ratio</th>
+        <td class="describe">
+            This ratio gives the analysts and investors indications
+            about the ability of a company to generate cash from its sales.
+        </td>
+        {% if winner.operatingCashFlowSalesRatio == Company1.company_name%}
+      <td class="winner">{{Company1.cashflow_indicator.operatingCashFlowSalesRatio}}</td>
+      <td class="loser">{{Company2.cashflow_indicator.operatingCashFlowSalesRatio}}</td>
+        {% elif winner.operatingCashFlowSalesRatio == Company2.company_name %}
+        <td class="loser">{{Company1.cashflow_indicator.operatingCashFlowSalesRatio}}</td>
+      <td class="winner">{{Company2.cashflow_indicator.operatingCashFlowSalesRatio}}</td>
+
+        {% else %}
+
+        <td>{{Company1.cashflow_indicator.operatingCashFlowSalesRatio}}</td>
+      <td>{{Company2.cashflow_indicator.operatingCashFlowSalesRatio}}</td>
+        {% endif %}
+
+    </tr>
+    <tr>
+      <th scope="row">Free Cash Flow Ratio</th>
+        <td class="describe">
+            Free Cash Flow, often abbreviate FCF,
+            is an efficiency and liquidity ratio that
+            calculates the how much more cash a company
+            generates than it uses to run and expand the
+            business by subtracting the capital expenditures
+            from the operating cash flow.
+        </td>
+
+
+
+        {% if winner.freeCashFlowOperatingCashFlowRatio == Company1.company_name%}
+      <td class="winner">{{Company1.cashflow_indicator.freeCashFlowOperatingCashFlowRatio}}</td>
+      <td class="loser">{{Company2.cashflow_indicator.freeCashFlowOperatingCashFlowRatio}}</td>
+
+        {% elif winner.freeCashFlowOperatingCashFlowRatio == Company2.company_name %}
+        <td class="loser">{{Company1.cashflow_indicator.freeCashFlowOperatingCashFlowRatio}}</td>
+      <td class="winner">{{Company2.cashflow_indicator.freeCashFlowOperatingCashFlowRatio}}</td>
+
+        {% else %}
+
+        <td>{{Company1.cashflow_indicator.freeCashFlowOperatingCashFlowRatio}}</td>
+      <td>{{Company2.cashflow_indicator.freeCashFlowOperatingCashFlowRatio}}</td>
+        {% endif %}
+
+    </tr>
+    <tr>
+        <th scope="row">Cash Flow Coverage Ratio</th>
+        <td class="describe">
+        The cash flow coverage ratio is an indicator of
+            the ability of a company to pay interest and principal amounts when they become due.
+        </td>
+
+        {% if winner.cashFlowCoverageRatios == Company1.company_name%}
+      <td class="winner">{{Company1.cashflow_indicator.cashFlowCoverageRatios}}</td>
+      <td class="loser">{{Company2.cashflow_indicator.cashFlowCoverageRatios}}</td>
+
+        {% elif winner.cashFlowCoverageRatios == Company2.company_name %}
+        <td class="loser">{{Company1.cashflow_indicator.cashFlowCoverageRatios}}</td>
+      <td class="winner">{{Company2.cashflow_indicator.cashFlowCoverageRatios}}</td>
+
+        {% else %}
+
+        <td>{{Company1.cashflow_indicator.cashFlowCoverageRatios}}</td>
+      <td>{{Company2.cashflow_indicator.cashFlowCoverageRatios}}</td>
+        {% endif %}
+
+
+    </tr>
+
+  <tr>
+        <th scope="row">Short Term Coverage Ratios</th>
+        <td class="describe">
+            This ratio measures the ability of the company's
+            operating cash flow to meet its obligations -
+            including its liabilities or ongoing concern costs.
+
+        </td>
+
+
+        {% if winner.shortTermCoverageRatios == Company1.company_name%}
+      <td class="winner">{{Company1.cashflow_indicator.shortTermCoverageRatios}}</td>
+      <td class="loser">{{Company2.cashflow_indicator.shortTermCoverageRatios}}</td>
+
+        {% elif winner.shortTermCoverageRatios == Company2.company_name %}
+        <td class="loser">{{Company1.cashflow_indicator.shortTermCoverageRatios}}</td>
+      <td class="winner">{{Company2.cashflow_indicator.shortTermCoverageRatios}}</td>
+
+        {% else %}
+
+        <td>{{Company1.cashflow_indicator.shortTermCoverageRatios}}</td>
+      <td>{{Company2.cashflow_indicator.shortTermCoverageRatios}}</td>
+        {% endif %}
+    </tr>
+
+   <tr>
+        <th scope="row">Capital Expenditure Coverage Ratios</th>
+       <td class="describe">
+           Capital expenditure coverage ratio shows whether
+           the company generates enough cash (from operating
+           cash flow) to cover its’ expenses, paid for purchased
+           capital asset or for made investments.
+       </td>
+
+        {% if winner.capitalExpenditureCoverageRatios == Company1.company_name%}
+      <td class="winner">{{Company1.cashflow_indicator.capitalExpenditureCoverageRatios}}</td>
+      <td class="loser">{{Company2.cashflow_indicator.capitalExpenditureCoverageRatios}}</td>
+
+        {% elif winner.capitalExpenditureCoverageRatios == Company2.company_name %}
+        <td class="loser">{{Company1.cashflow_indicator.capitalExpenditureCoverageRatios}}</td>
+      <td class="winner">{{Company2.cashflow_indicator.capitalExpenditureCoverageRatios}}</td>
+
+        {% else %}
+
+        <td>{{Company1.cashflow_indicator.capitalExpenditureCoverageRatios}}</td>
+      <td>{{Company2.cashflow_indicator.capitalExpenditureCoverageRatios}}</td>
+        {% endif %}
+
+
+    </tr>
+
+  <tr class="table-success">
+      <th scope="row"><u>Overall Winner</u></th>
+      <td class="owinner">{{winner.winner_cash}}</td>
+      <td>-</td>
+      <td>-</td>
+  </tr>
+
+  </tbody>
+</table>
+
+
+<br>
+<h3 class="text-center display-4">Investment Valuation Comparison.</h3>
+<table class="table table-hover table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Ratio</th>
+        <th scope="col">Description</th>
+
+      <th scope="col">{{Company1.company_name}}</th>
+      <th scope="col">{{Company2.company_name}}</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <th scope="row">Price To Book Value Ratio</th>
+        <td class="describe">
+            The P/B ratio reflects the value that market
+            participants attach to a company's equity relative
+            to its book value of equity.
+        </td>
+        {% if winner.priceBookValueRatio == Company1.company_name %}
+      <td class="winner">{{Company1.investment_valuation.priceBookValueRatio}}</td>
+      <td class="loser">{{Company2.investment_valuation.priceBookValueRatio}}</td>
+
+        {% elif winner.priceBookValueRatio == Company2.company_name %}
+          <td class="loser">{{Company1.investment_valuation.priceBookValueRatio}}</td>
+      <td class="winner">{{Company2.investment_valuation.priceBookValueRatio}}</td>
+
+
+        {% else %}
+         <td>{{Company1.investment_valuation.priceBookValueRatio}}</td>
+      <td>{{Company2.investment_valuation.priceBookValueRatio}}</td>
+        {% endif %}
+
+    </tr>
+    <tr>
+      <th scope="row">Price to Cash Flow Ratio</th>
+
+        <td class="describe">
+            The price-to-cash flow ratio measures how much cash a
+            company generates relative to its stock price,
+            rather than what it records in earnings relative to its stock price, as measured by the price-earnings ratio.
+        </td>
+        {% if winner.priceCashFlowRatio == Company1.company_name %}
+      <td class="winner">{{Company1.investment_valuation.priceCashFlowRatio}}</td>
+      <td class="loser">{{Company2.investment_valuation.priceCashFlowRatio}}</td>
+
+
+        {% elif winner.priceCashFlowRatio == Company2.company_name %}
+          <td class="loser">{{Company1.investment_valuation.priceCashFlowRatio}}</td>
+      <td class="winner">{{Company2.investment_valuation.priceCashFlowRatio}}</td>
+
+
+        {% else %}
+         <td>{{Company1.investment_valuation.priceCashFlowRatio}}</td>
+      <td>{{Company2.investment_valuation.priceCashFlowRatio}}</td>
+        {% endif %}
+
+    </tr>
+    <tr>
+        <th scope="row">Price to Earnings Value Ratio</th>
+        <td class="describe">
+            The price-to-earnings ratio (P/E ratio) is the
+            ratio for valuing a company that measures its
+            current share price relative to its per-share
+            earnings (EPS).
+        </td>
+        {% if winner.priceEarningsRatio == Company1.company_name %}
+      <td class="winner">{{Company1.investment_valuation.priceEarningsRatio}}</td>
+      <td class="loser">{{Company2.investment_valuation.priceEarningsRatio}}</td>
+
+
+        {% elif winner.priceEarningsRatio == Company2.company_name %}
+          <td class="loser">{{Company1.investment_valuation.priceEarningsRatio}}</td>
+      <td class="winner">{{Company2.investment_valuation.priceEarningsRatio}}</td>
+
+
+        {% else %}
+         <td>{{Company1.investment_valuation.priceEarningsRatio}}</td>
+      <td>{{Company2.investment_valuation.priceEarningsRatio}}</td>
+        {% endif %}
+
+    </tr>
+
+  <tr>
+        <th scope="row">Price Earnings to Growth Ratio</th>
+        <td class="describe">
+            The PEG ratio enhances the P/E ratio by adding in expected earnings growth into the
+            calculation.The PEG ratio is considered to be an
+            indicator of a stock's true value, and similar to
+            the P/E ratio, a lower PEG may indicate that a
+            stock is undervalued.
+        </td>
+         {% if winner.priceEarningsToGrowthRatio == Company1.company_name %}
+      <td class="winner">{{Company1.investment_valuation.priceEarningsToGrowthRatio}}</td>
+      <td class="loser">{{Company2.investment_valuation.priceEarningsToGrowthRatio}}</td>
+
+        {% elif winner.priceEarningsToGrowthRatio == Company2.company_name %}
+          <td class="loser">{{Company1.investment_valuation.priceEarningsToGrowthRatio}}</td>
+      <td class="winner">{{Company2.investment_valuation.priceEarningsToGrowthRatio}}</td>
+
+
+        {% else %}
+         <td>{{Company1.investment_valuation.priceEarningsToGrowthRatio}}</td>
+      <td>{{Company2.investment_valuation.priceEarningsToGrowthRatio}}</td>
+        {% endif %}
+    </tr>
+
+   <tr>
+        <th scope="row">Price Sales Ratio</th>
+
+       <td class="describe">
+           The price-to-sales ratio shows
+           how much the market values every
+           dollar of the company's sales.
+           This ratio can be effective in valuing growth
+           stocks that have yet to turn a profit or have suffered a
+           temporary setback.
+       </td>
+
+         {% if winner.priceSalesRatio == Company1.company_name %}
+      <td class="winner">{{Company1.investment_valuation.priceSalesRatio}}</td>
+      <td class="loser">{{Company2.investment_valuation.priceSalesRatio}}</td>
+
+
+        {% elif winner.priceSalesRatio == Company2.company_name %}
+          <td class="loser">{{Company1.investment_valuation.priceSalesRatio}}</td>
+      <td class="winner">{{Company2.investment_valuation.priceSalesRatio}}</td>
+
+
+        {% else %}
+         <td>{{Company1.investment_valuation.priceSalesRatio}}</td>
+      <td>{{Company2.investment_valuation.priceSalesRatio}}</td>
+        {% endif %}
+
+
+
+    </tr>
+
+  <tr>
+        <th scope="row">Dividend Yield</th>
+        <td class="describe">
+            The dividend yield is an estimate of the
+            dividend-only return of a stock investment.
+            Assuming the dividend is not raised or lowered,
+            the yield will rise when the price of the stock
+            falls, and it will fall when the price of the stock rises.
+        </td>
+         {% if winner.dividendYield == Company1.company_name %}
+      <td class="winner">{{Company1.investment_valuation.dividendYield}}</td>
+      <td class="loser">{{Company2.investment_valuation.dividendYield}}</td>
+
+
+        {% elif winner.dividendYield == Company2.company_name %}
+          <td class="loser">{{Company1.investment_valuation.dividendYield}}</td>
+      <td class="winner">{{Company2.investment_valuation.dividendYield}}</td>
+
+
+        {% else %}
+         <td>{{Company1.investment_valuation.dividendYield}}</td>
+      <td>{{Company2.investment_valuation.dividendYield}}</td>
+        {% endif %}
+    </tr>
+  <tr>
+        <th scope="row">Enterprise Value Multiple</th>
+      <td class="describe">
+          This measurement allows investors to assess a
+          company on the same basis as that of an acquirer.
+          As a rough calculation, enterprise value multiple
+          serves as a proxy for how long it would take for an
+          acquisition to earn enough to pay off its costs
+          (assuming no change in EBITDA).
+      </td>
+         {% if winner.enterpriseValueMultiple == Company1.company_name %}
+      <td class="winner">{{Company1.investment_valuation.enterpriseValueMultiple}}</td>
+      <td class="loser">{{Company2.investment_valuation.enterpriseValueMultiple}}</td>
+
+
+        {% elif winner.enterpriseValueMultiple == Company2.company_name %}
+          <td class="loser">{{Company1.investment_valuation.enterpriseValueMultiple}}</td>
+      <td class="winner">{{Company2.investment_valuation.enterpriseValueMultiple}}</td>
+
+
+        {% else %}
+         <td>{{Company1.investment_valuation.enterpriseValueMultiple}}</td>
+      <td>{{Company2.investment_valuation.enterpriseValueMultiple}}</td>
+        {% endif %}
+
+
+
+    </tr>
+  <tr class="table-success">
+      <th scope="col"><u>Overall Winner</u></th>
+      <td class="owinner">{{winner.winner_investment}}</td>
+
+      <td>-</td>
+            <td>-</td>
+  </tr>
+
+
+
+  </tbody>
+</table>
+
+
+<br>
+<h3 class="text-center display-4">Operating Performance Comparison.</h3>
+<table class="table table-hover table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Ratio</th>
+        <th scope="col">Description</th>
+
+      <th scope="col">{{Company1.company_name}}</th>
+      <th scope="col">{{Company2.company_name}}</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+        <th scope="row">Fixed Asset Turnover </th>
+        <td class="describe">
+            The fixed asset turnover ratio reveals how
+            efficient a company is at generating sales from
+            its existing fixed assets.
+        </td>
+        {% if winner.fixedAssetTurnover == Company1.company_name %}
+      <td class="winner">{{Company1.operating_performance.fixedAssetTurnover}}</td>
+      <td class="loser">{{Company2.operating_performance.fixedAssetTurnover}}</td>
+         {% elif winner.fixedAssetTurnover == Company2.company_name %}
+      <td class="loser">{{Company1.operating_performance.fixedAssetTurnover}}</td>
+      <td class="winner">{{Company2.operating_performance.fixedAssetTurnover}}</td>
+
+        {% else %}
+
+        <td>{{Company1.operating_performance.fixedAssetTurnover}}</td>
+      <td>{{Company2.operating_performance.fixedAssetTurnover}}</td>
+        {% endif%}
+    </tr>
+    <tr>
+      <th scope="row">Asset Turnover</th>
+        <td class="describe">
+            This ratio shows how efficiently a
+            company can use its assets to generate sales.
+        </td>
+
+        {% if winner.assetTurnover == Company1.company_name %}
+      <td class="winner">{{Company1.operating_performance.assetTurnover}}</td>
+      <td class="loser">{{Company2.operating_performance.assetTurnover}}</td>
+
+         {% elif winner.assetTurnover == Company2.company_name %}
+      <td class="loser">{{Company1.operating_performance.assetTurnover}}</td>
+      <td class="winner">{{Company2.operating_performance.assetTurnover}}</td>
+
+        {% else %}
+
+        <td>{{Company1.operating_performance.assetTurnover}}</td>
+      <td>{{Company2.operating_performance.assetTurnover}}</td>
+            {% endif %}
+
+    </tr>
+  <tr class="table-success">
+      <th scope="col"><u>Overall Winner</u></th>
+            <td class="owinner">{{winner.winner_operating}}</td>
+
+      <td>-</td>
+      <td>-</td>
+  </tr>
+  </tbody>
+</table>
+</div>
+</body>
