@@ -2,6 +2,12 @@
 
 Easy Financial Statements is a website that presents full financial analysis reports on any public company in the world. Built using Python, Django, HTML and CSS.
 
+![Home Page](https://user-images.githubusercontent.com/41314351/58621054-88014280-8296-11e9-97c4-3e1d299e3498.png)
+![Company Profile](https://user-images.githubusercontent.com/41314351/58621269-fcd47c80-8296-11e9-884f-8da8a76506d7.png)
+![Comparison](https://user-images.githubusercontent.com/41314351/58621357-25f50d00-8297-11e9-93c5-db20fc7c37ca.png)
+![Comparison](https://user-images.githubusercontent.com/41314351/58621387-41f8ae80-8297-11e9-8423-bbccf4c96b61.png)
+
+
 ## Description
 
 It is often extemely difficult to get into the world of investing as the process of learning financial analysis to evaluate companies can be very intimidating.
@@ -29,9 +35,6 @@ On Terminal:
 
 cd easyfinancialstatements <br>
 python manage.py runserver OR python3 manage.py runserver
-
-## Screenshots
-
 
 
 
